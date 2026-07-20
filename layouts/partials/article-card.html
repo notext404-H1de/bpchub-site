@@ -1,0 +1,8 @@
+<article class="article-card">
+  <a class="card-link" href="{{ .RelPermalink }}" aria-label="Read {{ .Title }}">
+    <span class="card-kicker">{{ with .Params.categories }}{{ index . 0 }}{{ else }}{{ .Section | humanize }}{{ end }}</span>
+    <h3>{{ .Title }}</h3>
+    <p>{{ .Description | default .Summary | plainify | truncate 150 }}</p>
+    <span class="card-meta">{{ .Date.Format "Jan 2, 2006" }} · {{ .ReadingTime }} min read</span>
+  </a>
+</article>

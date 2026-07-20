@@ -1,0 +1,16 @@
+{
+  "name": "BPC Hub",
+  "short_name": "BPC Hub",
+  "description": "Personal care, made clearer.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fbfaf6",
+  "theme_color": "#2f4a3d",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

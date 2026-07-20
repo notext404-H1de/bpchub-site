@@ -1,0 +1,3 @@
+{{- $email := site.Params.contactEmail -}}
+{{- if not $email }}{{ errorf "contact-email shortcode requires params.contactEmail before publishing %s" .Page.File.Path }}{{ end -}}
+<a href="mailto:{{ $email }}">{{ $email }}</a>

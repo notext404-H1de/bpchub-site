@@ -1,0 +1,11 @@
+{{- $title := .Get "title" -}}
+{{- $url := .Get "url" -}}
+{{- $summary := .Get "summary" -}}
+{{- $label := .Get "label" | default "Worth considering" -}}
+{{- if or (not $title) (not $url) }}{{ errorf "product-card requires title= and url= on %s" .Page.File.Path }}{{ end -}}
+<aside class="product-card">
+  <p class="product-label">{{ $label }}</p>
+  <h3>{{ $title }}</h3>
+  {{ with $summary }}<p>{{ . }}</p>{{ end }}
+  <span class="affiliate-link-wrap"><a class="affiliate-link" href="{{ $url | safeURL }}" target="_blank" rel="sponsored nofollow noopener">Check current details on Amazon <span aria-hidden="true">↗</span></a><small>Paid link</small></span>
+</aside>

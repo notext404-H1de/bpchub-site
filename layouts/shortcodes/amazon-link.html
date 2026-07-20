@@ -1,0 +1,4 @@
+{{- $url := .Get "url" -}}
+{{- $text := .Get "text" | default "View on Amazon" -}}
+{{- if not $url }}{{ errorf "amazon-link shortcode requires url= on %s" .Page.File.Path }}{{ end -}}
+<span class="affiliate-link-wrap"><a class="affiliate-link" href="{{ $url | safeURL }}" target="_blank" rel="sponsored nofollow noopener">{{ $text }} <span aria-hidden="true">↗</span></a><small>Paid link</small></span>

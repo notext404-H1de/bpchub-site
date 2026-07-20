@@ -1,0 +1,13 @@
+{{- if not .IsHome -}}
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <a href="{{ site.Home.RelPermalink }}">Home</a>
+  <span aria-hidden="true">/</span>
+  {{- with .CurrentSection }}
+    {{- if ne .RelPermalink site.Home.RelPermalink }}
+      <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+      {{- if ne $.RelPermalink .RelPermalink }}<span aria-hidden="true">/</span>{{ end }}
+    {{- end }}
+  {{- end }}
+  {{- if .IsPage }}<span aria-current="page">{{ .Title }}</span>{{ end }}
+</nav>
+{{- end -}}

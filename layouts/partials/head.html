@@ -1,0 +1,44 @@
+{{- $description := .Description | default .Summary | default site.Params.description | plainify -}}
+{{- $description = $description | htmlUnescape | strings.TrimSpace | truncate 170 -}}
+{{- $imagePath := .Params.image | default site.Params.defaultImage -}}
+{{- $imageURL := $imagePath | absURL -}}
+{{- $pageTitle := printf "%s | %s" .Title site.Title -}}
+{{- if .IsHome }}{{ $pageTitle = printf "%s — %s" site.Title site.Params.tagline }}{{ end -}}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ $pageTitle }}</title>
+<meta name="description" content="{{ $description }}">
+<link rel="canonical" href="{{ .Permalink }}">
+<meta name="theme-color" content="#2f4a3d">
+<meta name="color-scheme" content="light">
+
+<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+<meta property="og:site_name" content="{{ site.Title }}">
+<meta property="og:title" content="{{ $pageTitle }}">
+<meta property="og:description" content="{{ $description }}">
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:image" content="{{ $imageURL }}">
+<meta property="og:locale" content="{{ site.Params.locale }}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ $pageTitle }}">
+<meta name="twitter:description" content="{{ $description }}">
+<meta name="twitter:image" content="{{ $imageURL }}">
+
+{{- with .OutputFormats.Get "RSS" }}
+<link rel="alternate" type="application/rss+xml" title="{{ site.Title }} RSS" href="{{ .RelPermalink }}">
+{{- end }}
+<link rel="icon" href="{{ `favicon.svg` | relURL }}" type="image/svg+xml">
+<link rel="manifest" href="{{ `site.webmanifest` | relURL }}">
+{{- with resources.Get "css/main.css" }}
+  {{- $style := . | minify | fingerprint "sha384" }}
+<link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}">
+{{- end }}
+
+{{- $publisher := dict "@type" "Organization" "name" site.Params.brandName "url" site.Home.Permalink -}}
+{{- if and .IsPage (in (slice "skincare" "hair-care" "body-care" "guides") .Section) -}}
+  {{- $schema := dict "@context" "https://schema.org" "@type" "Article" "headline" .Title "description" $description "datePublished" (.Date.Format "2006-01-02T15:04:05Z07:00") "dateModified" (.Lastmod.Format "2006-01-02T15:04:05Z07:00") "mainEntityOfPage" .Permalink "publisher" $publisher "author" (dict "@type" "Organization" "name" (.Params.author | default site.Params.authorName)) "image" $imageURL -}}
+<script type="application/ld+json">{{ $schema | jsonify | safeJS }}</script>
+{{- else -}}
+  {{- $schema := dict "@context" "https://schema.org" "@type" "WebSite" "name" site.Title "alternateName" site.Params.brandLongName "description" site.Params.description "url" site.Home.Permalink "publisher" $publisher -}}
+<script type="application/ld+json">{{ $schema | jsonify | safeJS }}</script>
+{{- end }}

@@ -1,0 +1,15 @@
+<footer class="site-footer">
+  <div class="shell footer-grid">
+    <div>
+      <a class="footer-brand" href="{{ site.Home.RelPermalink }}">{{ site.Params.brandLongName }}</a>
+      <p>{{ site.Params.description }}</p>
+    </div>
+    <nav class="footer-nav" aria-label="Policies and contact">
+      {{ range site.Menus.footer }}<a href="{{ .URL }}">{{ .Name }}</a>{{ end }}
+    </nav>
+  </div>
+  <div class="shell footer-bottom">
+    <p class="amazon-disclosure"><strong>Affiliate disclosure:</strong> {{ site.Params.amazonDisclosure }}</p>
+    <p>© {{ now.Year }} {{ site.Title }}. Editorial content is for general information only.</p>
+  </div>
+</footer>

@@ -1,0 +1,85 @@
+baseURL: https://blog.bpchub.com/
+locale: en-US
+defaultContentLanguage: en
+title: BPC Hub
+timeZone: America/Los_Angeles
+enableRobotsTXT: true
+enableGitInfo: false
+summaryLength: 28
+
+pagination:
+  pagerSize: 9
+
+taxonomies:
+  category: categories
+  tag: tags
+
+outputs:
+  home:
+    - HTML
+    - RSS
+
+caches:
+  images:
+    dir: :cacheDir/images
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: false
+  highlight:
+    noClasses: false
+
+related:
+  includeNewer: true
+  threshold: 70
+  toLower: true
+  indices:
+    - name: categories
+      weight: 100
+    - name: tags
+      weight: 80
+    - name: date
+      weight: 10
+
+params:
+  brandName: BPC Hub
+  brandLongName: Beauty & Personal Care Hub
+  tagline: Personal care, made clearer.
+  description: Independent, evidence-aware guides to skincare, hair care, body care, and everyday personal care products for North American readers.
+  contactEmail: ""
+  authorName: BPC Hub Editorial Team
+  locale: en_US
+  defaultImage: /images/og-default.png
+  amazonDisclosure: As an Amazon Associate I earn from qualifying purchases.
+
+menus:
+  main:
+    - name: Skincare
+      pageRef: /skincare
+      weight: 10
+    - name: Hair Care
+      pageRef: /hair-care
+      weight: 20
+    - name: Body Care
+      pageRef: /body-care
+      weight: 30
+    - name: Guides
+      pageRef: /guides
+      weight: 40
+    - name: About
+      pageRef: /about
+      weight: 50
+  footer:
+    - name: Editorial Policy
+      pageRef: /editorial-policy
+      weight: 10
+    - name: Affiliate Disclosure
+      pageRef: /affiliate-disclosure
+      weight: 20
+    - name: Medical Disclaimer
+      pageRef: /medical-disclaimer
+      weight: 30
+    - name: Privacy
+      pageRef: /privacy-policy
+      weight: 40

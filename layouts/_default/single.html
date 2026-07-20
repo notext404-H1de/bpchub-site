@@ -1,0 +1,63 @@
+{{ define "main" }}
+{{- $isArticle := in (slice "skincare" "hair-care" "body-care" "guides") .Section -}}
+<div class="shell page-shell{{ if $isArticle }} article-shell{{ end }}">
+  {{ partial "breadcrumbs.html" . }}
+  {{ if $isArticle }}
+    <article>
+      <header class="article-header">
+        <p class="eyebrow">{{ with .Params.categories }}{{ index . 0 }}{{ else }}{{ .Section | humanize }}{{ end }}</p>
+        <h1>{{ .Title }}</h1>
+        <p class="article-deck">{{ .Description }}</p>
+        <div class="article-byline">
+          <span>By {{ .Params.author | default site.Params.authorName }}</span>
+          <span>Published {{ .Date.Format "January 2, 2006" }}</span>
+          {{ if ne (.Lastmod.Format "2006-01-02") (.Date.Format "2006-01-02") }}<span>Updated {{ .Lastmod.Format "January 2, 2006" }}</span>{{ end }}
+          <span>{{ .ReadingTime }} min read</span>
+        </div>
+      </header>
+
+      {{ if .Params.affiliate }}
+      <aside class="disclosure-box" aria-label="Affiliate disclosure">
+        <strong>Affiliate disclosure</strong>
+        <p>{{ site.Params.amazonDisclosure }} If you buy through a labeled link, we may earn a commission at no extra cost to you.</p>
+      </aside>
+      {{ end }}
+      {{ if .Params.medical }}
+      <aside class="medical-box" aria-label="Medical disclaimer">
+        <strong>Health note</strong>
+        <p>This article offers general information, not diagnosis or treatment. For symptoms or individual medical questions, consult a qualified healthcare professional.</p>
+      </aside>
+      {{ end }}
+
+      <div class="article-layout">
+        {{ if gt (len .TableOfContents) 80 }}
+        <aside class="toc-wrap">
+          <p>On this page</p>
+          {{ .TableOfContents }}
+        </aside>
+        {{ end }}
+        <div class="prose article-content">
+          {{ .Content }}
+        </div>
+      </div>
+    </article>
+
+    {{- $related := site.RegularPages.Related . | first 3 -}}
+    {{ with $related }}
+    <section class="related-block" aria-labelledby="related-heading">
+      <div class="section-heading compact"><div><p class="eyebrow">Keep reading</p><h2 id="related-heading">Related guides</h2></div></div>
+      <div class="article-grid">{{ range . }}{{ partial "article-card.html" . }}{{ end }}</div>
+    </section>
+    {{ end }}
+  {{ else }}
+    <article class="standard-page">
+      <header class="page-header">
+        <p class="eyebrow">{{ site.Title }}</p>
+        <h1>{{ .Title }}</h1>
+        {{ with .Description }}<p class="page-deck">{{ . }}</p>{{ end }}
+      </header>
+      <div class="prose">{{ .Content }}</div>
+    </article>
+  {{ end }}
+</div>
+{{ end }}

@@ -1,0 +1,33 @@
+{{ define "main" }}
+<div class="shell page-shell">
+  {{ partial "breadcrumbs.html" . }}
+  <header class="page-header">
+    <p class="eyebrow">BPC Hub library</p>
+    <h1>{{ .Title }}</h1>
+    {{ with .Description }}<p class="page-deck">{{ . }}</p>{{ end }}
+    {{ with .Content }}<div class="section-intro prose">{{ . }}</div>{{ end }}
+  </header>
+
+  {{- $pages := .RegularPages.ByDate.Reverse -}}
+  {{- $paginator := .Paginate $pages -}}
+  {{ if $paginator.Pages }}
+  <div class="article-grid list-grid">
+    {{ range $paginator.Pages }}{{ partial "article-card.html" . }}{{ end }}
+  </div>
+  {{ else }}
+  <div class="empty-state">
+    <h2>Thoughtful guides are on the way.</h2>
+    <p>We are researching this section now. In the meantime, explore our practical buying guides.</p>
+    <a class="button button-primary" href="{{ `/guides/` | relURL }}">Browse guides</a>
+  </div>
+  {{ end }}
+
+  {{ if gt $paginator.TotalPages 1 }}
+  <nav class="pagination" aria-label="Pagination">
+    {{ with $paginator.Prev }}<a rel="prev" href="{{ .URL }}">← Newer</a>{{ end }}
+    <span>Page {{ $paginator.PageNumber }} of {{ $paginator.TotalPages }}</span>
+    {{ with $paginator.Next }}<a rel="next" href="{{ .URL }}">Older →</a>{{ end }}
+  </nav>
+  {{ end }}
+</div>
+{{ end }}
